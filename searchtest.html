@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>綠色餐廳總覽</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <!-- fontawesome連結 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="./台中綠色餐廳.js"></script>
+</head>
+
+
+<script>
+    $(function () {
+        //將區域加入選單
+        let areaArray = ['', '中區', '東區', '南區', '西區', '北區', '北屯區', '西屯區', '南屯區', '太平區', '大里區',
+            '霧峰區', '烏日區', '豐原市', '后里區', '潭子區', '大雅區', '大肚區', '沙鹿區', '梧棲區', '清水區', '大甲區']
+        for (i = 0; i < areaArray.length; i++) {
+            let option = `<option value="${areaArray[i]}">
+                ${areaArray[i]}
+                </option>`
+            $("datalist").append(option)
+        }
+        //引用json
+        let jsonObj = JSON.parse(json)
+        //table排版問題?
+
+        let content = ''
+        jsonObj.forEach(function (obj) {
+            content += `
+            <div class="tablebox" >
+            <table id="myTable";>
+                <tbody id="tablebody">
+                    <tr style="font-size:20px">
+                        <td style="width:200px; border:none;border-right: dashed rgb(117, 186, 169);" >
+                            <img src="${obj.照片}" style="width:100%; ">
+                        </td>
+                        <div style="text-align: center;">
+                            <td style="padding-left: 20px; padding-top: 10px; width:50%; border:none">
+                                <div style="font-size:30px;font-weight:bold;" id="">${obj.店名}</div>
+                                <br><br>
+                                <div>電話：${obj.電話}</div><br>
+                                <div>地址：${obj.地址}</div><br>
+                                <div style="font-size:30px">
+                                    <a href="${obj.網站}">
+                                        <img src="./icon/google.png" width="40px">
+                                    </a>&emsp;&emsp;&emsp;&emsp;
+                                    <button class="heart">🤍</button>
+                                </div>
+                            </td>
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            `
+        })
+        let table = content
+        $("#tablecontainer").append(table)
+        //關鍵字提醒
+        let nameList = jsonObj.map(x => x.店名)
+        nameList
+        $("#myInput").autocomplete({
+            source: nameList
+        })
+
+        $("#searchbt").on("click", function () {
+            let value = $("#myInput").val().toLowerCase().trim()//設定抓的關鍵字
+            //抓table有沒有符合
+            $(".tablebox").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            })
+        })
+        //加入dialog
+        //收藏功能
+        $("#collection").dialog({
+            width: 500,
+            autoOpen: false,
+            modal: false,
+            maxHeight: 800,
+            maxWidth: 1100,
+            buttons: {
+                Ok: function () {
+                    $(this).dialog("close")
+                }
+            },
+            hide: { effect: 'fold', speed: 1000 },
+            show: { effect: 'blind', speed: 1000 }
+        })
+        let collectArr = []
+        $(".heart").on("click", function () {
+            $(this).css("background-color", "pink")
+            //按鈕鎖住
+            // $(this).prop("disabled", true)
+            let likeName = $(this).parent().parent().children().slice(0, 1).clone().text()
+                            // .css("font-size","20px").css("font-weight","normal")
+                            // 
+                            // .append("<button id='cancelbt' style='font-size:10px'>取消收藏</button>")
+            //將陣列東西印出來
+            // collectArr.forEach(function (coll) {
+            //     $("#collection").append(coll)
+            // })
+            console.log(likeName)
+            // collectArr.push(likeName)
+            // $("#collection").append(collectArr)
+            // alert("已加入收藏")
+            // $("#collection").dialog("open")
+            // $(collectArr).filter(function () {
+            //     $(this).toggle($(this).text().indexOf(likeName) > -1)
+            // })
+
+            if (collectArr.includes(likeName)) {
+                let index = collectArr.indexOf(likeName)
+                collectArr.splice(index,1)
+            }else{
+            collectArr.push(likeName)
+            alert("已加入收藏")
+            $("#collection").append(collectArr)
+            $("#collection").dialog("open")
+            }
+
+            // $("#cancelbt").click(function(){
+            //     $(this).parent().remove()
+            // })
+        })
+
+        //如何設定區域
+        // $("#searchbt2").on("click", function () {
+        //     let value = $("#myInput").val().toLowerCase().trim()
+        //     let value2 = $("select").val().trim()
+        //     $(".tablebox").filter(function () {
+        //         $(this).toggle($(this).text().indexOf(value2) > -1 )
+        //     })
+        // })
+    })
+</script>
+<style>
+    #logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    body {
+        margin: auto;
+    }
+
+    .dropbtn {
+        background-color: rgb(28, 225, 176);
+        color: #fff;
+        height: 70px;
+        padding: 10px;
+        font-size: 25px;
+        border: none;
+        cursor: pointer;
+        font-weight: bolder;
+        display: inline-block;
+    }
+
+    .dropdown {
+        left: 5%;
+        /* 宣告為相對定位，下面的子元素可以參考該元素 */
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        /* 隱藏元素 */
+        display: none;
+        position: absolute;
+        background-color: white;
+        width: 100%;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    .dropdown-content a {
+        color: rgb(10, 129, 99);
+        padding: 5px 6px;
+        font-size: medium;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1
+    }
+
+    /* .dropdown的hover效果，作用在.dropdown-content上 */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: rgb(138, 234, 210);
+    }
+
+    .button {
+        height: 40px;
+        width: 40px;
+        border-radius: 30%;
+        background-color: rgb(195, 244, 232);
+        color: rgb(10, 129, 99);
+        cursor: pointer;
+        border: none;
+    }
+
+    nav {
+        background-color: rgb(28, 225, 176);
+        height: 70px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+
+    #d1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+
+    /* 搜尋欄位設定 */
+    .containerdata {
+        display: flex;
+        height: 300px;
+        align-items: center
+    }
+
+    input {
+        width: 400px;
+        height: 40px;
+        border: none;
+        border-radius: 30px;
+        font-size: 20px;
+        padding-left: 20px;
+    }
+
+    input:hover {
+        box-shadow: 3px 3px 3px 3px rgb(10, 129, 99);
+        transition: 0.5s;
+    }
+
+    #searchbt {
+        font-size: 30px;
+        width: 80px;
+        height: 42px;
+        margin-left: -80px;
+        background-color: rgb(176, 224, 212);
+        border-top-right-radius: 30px;
+        border-bottom-right-radius: 30px;
+        border: none;
+        cursor: pointer;
+    }
+
+    #searchbt:hover {
+        background-color: rgb(90, 165, 146);
+        color: white;
+    }
+
+    /* .ui-widget{
+        font-size: 20px;
+        list-style:none;
+        background-color: white;
+        width:400px;
+        opacity: 0.9;
+        border-radius: 30px;     
+    }
+    .ui-menu-item{
+        width:95%;
+        transition:0.5s
+    }
+    .ui-menu-item:hover{
+        background-color:rgb(90, 165, 146) ;
+        color:white
+    } */
+    #location2 {
+        width: 200px;
+        height: 40px;
+        border: none;
+        border-radius: 30px;
+        padding-left: 20px;
+        font-size: 20px
+    }
+
+    #location2:hover {
+        box-shadow: 3px 3px 3px 3px rgb(10, 129, 99);
+        transition: 0.5s;
+    }
+
+    #searchbt2 {
+        font-size: 30px;
+        width: 65px;
+        height: 40px;
+        margin-left: -63px;
+        border-top-right-radius: 30px;
+        border-bottom-right-radius: 30px;
+        background-color: rgb(176, 224, 212);
+        border: none;
+        cursor: pointer;
+    }
+
+    #searchbt2:hover {
+        background-color: rgb(90, 165, 146);
+        color: white;
+    }
+
+    /* 表格設定 */
+    #tablecontainer {
+        /* 這邊訂置中 */
+        width: 1500px;
+        height: 600px;
+        margin: 10px auto;
+        /* justify-content: center;
+        align-items: center; */
+        /* display: flex;
+        flex-wrap: wrap; */
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .tablebox {
+        width: 70%;
+        margin: 10px auto;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    table {
+        font-family: 微軟正黑體;
+        width: 700px;
+        height: 350px;
+        margin: auto;
+        border: dashed rgb(117, 186, 169);
+        border-radius: 15px 15px 15px 15px;
+    }
+
+    tr:hover {
+        background-color: rgb(188, 228, 227);
+    }
+
+    .heart {
+        border: none;
+        cursor: pointer;
+        font-size: 25px;
+    }
+    .ui-dialog {
+    position:fixed;
+    left:10%;
+    }
+    /* .fixed-dialog{
+    position: fixed;
+    
+    } */
+  
+</style>
+<body>
+
+    <br>
+    <nav>
+        <div id="d1" style="">
+            <div id="logo" style="font-size: 30px; font-family:Microsoft JhengHei; font-weight:bold; color:white;">
+                <img src="./icon/綠色餐廳LOGO.jpg" style="height:50px;">&nbsp;
+                <div class="dropdown"><!-- 下拉頁面 -->
+                    <a href="./台中綠色餐廳.html"><button class="dropbtn">台中綠色餐廳</button></a>
+                    <div class="dropdown-content">
+                        <a href="./綠色餐廳介紹.html" target="_block">綠色餐廳介紹</a>
+                        <a href="./台中綠色餐廳搜尋.html" target="_block">餐廳總覽</a>
+                    </div>
+                </div>
+            </div>&emsp;&emsp;
+            <!-- 搜尋區 -->
+            <div class="containerdata">
+                <!--搜尋框-->
+                <input id="myInput" list="options0" placeholder=" 請輸入餐廳或選擇地區">
+                <datalist id="options0"></datalist>
+                <button id="searchbt" type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>&emsp;&emsp;
+            <!-- 地區搜尋 -->
+            <!-- <select name="location1" id="location2">
+            </select>
+            <button id="searchbt2">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button> -->
+
+            <!-- icon連結 -->
+            <a href="https://www.google.com/maps/d/u/0/edit?mid=1pCNM3Av_jkac3PkaAVXThoz-_xzMBqY&usp=sharing">
+                <button class="button" id="mapicon">
+                    <img src="./icon/mapicon.png" width="30px">
+                </button>
+            </a>&emsp;
+            <a href="https://www.facebook.com/greenlife123/?ref=nf">
+                <button class="button" id="mapicon"><img src="./icon/fb.png" width="30px">
+                </button>
+            </a>
+        </div>
+    </nav> <br><br>
+    <div id="collection" title="收藏清單" style="width: 100%;height: 100px;"></div>
+    <div id="tablecontainer"></div>
+
+
+</body>
+
+</html>

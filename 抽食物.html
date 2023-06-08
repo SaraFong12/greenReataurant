@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+
+<script>
+let foods =["十両。滷味．麻辣燙．浮水魷魚焿","王家香火雞肉飯","炒飯超人公益店","零五粥舖",
+"米點米食","南屯豬腳麵線","條條有理","初一素蔬食自助餐館","姐妹花越南創意料理","麥當勞",
+"麵由辛生","肯德基","新馬小廚","Woopen木盆","Poke poke 波奇波奇","金三益健康茶飲","八米澤鐵板燒",
+"235巷pasta","台客燒肉粥","白貓散步 Gatto Bianco"]
+
+
+let drinks= ["一沐日","得正","大茗","50嵐","可不可熟成紅茶","上宇林"
+,"迷客夏","茶湯會","大苑子"]
+function pick(){
+    let foodIndex = Math.floor(Math.random()*foods.length)
+    $("#result").html(foods[foodIndex])
+}
+
+function pickDrink(){
+    let drinkIndex = Math.floor(Math.random()*drinks.length)
+    $("#rtdrink").html(drinks[drinkIndex])
+}
+
+$(function(){
+    $("#pick").click(pick)
+    $("#pickdrink").click(pickDrink)
+})
+
+
+
+</script>
+<style>
+.d1{
+    position:absolute;
+    top: 30px;
+    left: 70px;
+}
+#result{
+  border: 5px solid #FFDC76;
+  font-size:50px;
+  text-align:center;
+  background:lightyellow;
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:10px;
+  width:500px;
+  height: 200px;
+  display: flex ;
+  align-items: center
+}
+
+#rtdrink{
+  border: 5px solid #be8293;
+  font-size:50px;
+  text-align:center;
+  background:rgb(238, 209, 215);
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:10px;
+  width:500px;
+  height: 200px;
+  display: flex ;
+  align-items: center
+}
+
+input{
+  border:0;
+  background-color:#3397a9;
+  color:#fff;
+  border-radius:10px;
+  cursor:pointer;
+  font-size: large;
+}
+
+input:hover{
+  color:#003C9D;
+  background-color:#fff;
+  border:2px #003C9D solid;
+}
+</style>
+<body>
+<div class="d1">
+    <div style="display:inline-block">
+        <h1> 🍱 🥪今日吃什麼：</h1>
+        <div id="result"></div>
+        <input id="pick" type="button" value="抽餐廳" style="width:150px;height:50px;">
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div style="display:inline-block">
+        <h1> 🍵🍹來杯飲料： </h1>
+        <div id="rtdrink"></div>
+        <input id="pickdrink" type="button" value="抽飲料店" style="width:150px;height:50px;">   
+    </div>
+</div>
+</body>
+</html>

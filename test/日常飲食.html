@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script src="./日常飲食.js"></script>
+<script>
+let jsonObj = JSON.parse(json)
+    let table_header = `
+    <table border="1"> 
+       <tr>   
+           <th>編號</th> 
+           <th>店名</th>
+           <th>電話</th>
+           <th>平均價格</th>
+           <th>營業時間</th>
+           <th>評價</th>
+           <th>地址</th>    
+       </tr>
+    `
+    let content = ''
+    jsonObj.forEach(function(obj){
+    content += `
+        <tr>
+            <td>${obj.編號}</td>
+            <td>${obj.店名}</td>
+            <td>${obj.電話}</td>
+            <td>${obj.平均價格}</td>
+            <td>${obj.營業時間}</td>
+            <td>${obj.評價}</td>
+            <td>${obj.地址}</td>
+        </tr>
+    `
+    
+})
+
+
+
+    let table_footer = '</table>'
+    let table = table_header  + content + table_footer
+
+    $(function(){
+
+        $("body").append(table)
+    })
+</script>
+<body>
+<h1>日常飲食</h1>br
+<button onclick="location.href='https://goo.gl/maps/tBmksaduJx9VRpkV8'">map</button>
+<p></p>
+</body>
+</html>

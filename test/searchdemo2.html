@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+    export default {
+      name: "DataWithPagination",
+      props: {
+        countries: {
+          type: Array,
+          required: true
+        }
+      },
+      data() {
+        return {
+          query: "",
+          currentPage: 1,
+          offset: 20
+        };
+      },
+      computed: {
+        filterRows() {
+          let query = this.query.toLowerCase();
+          let originData = this.countries;
+          if (!this.query.match(/^[ ]*$/)) {
+            return originData.filter(d => {
+              return d.name.toLowerCase().indexOf(query) > -1;
+            });
+          } else {
+            return originData;
+          }
+        },
+        pageStart() {
+          return (this.currentPage - 1) * this.offset;
+        },
+        totalPage() {
+          return Math.ceil(this.filterRows.length / this.offset);
+        }
+      },
+      methods: {
+        setPage(idx) {
+          if (idx <= 0 || idx > this.totalPage) {
+            return;
+          }
+          this.currentPage = idx;
+        }
+      },
+      watch: {
+        filterRows: {
+          deep: true,
+          handler: function() {
+            this.currentPage = 1;
+          }
+        }
+      }
+    };
+    </script>
+<body>
+    <template>
+        <div class="container py-5">
+          <DataWithPagination :countries="countries" />
+        </div>
+      </template>
+      
+      <template>
+        <div>
+          <!--分頁部分-->
+          <div class="row justify-content-center">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li
+                  class="page-item"
+                  :class="['page-item',{disabled:currentPage===1}]"
+                  @click.prevent="setPage(currentPage-1)"
+                >
+                  <a class="page-link" href="#"><</a>
+                </li>
+                <li
+                  v-for="page in totalPage"
+                  :key="page"
+                  class="page-item"
+                  :class="['page-item',{active:currentPage === page}]"
+                  @click.prevent="setPage(page)"
+                >
+                  <a class="page-link" href="#">{{page}}</a>
+                </li>
+                <li
+                  class="page-item"
+                  :class="['page-item',{disabled:currentPage===totalPage}]"
+                  @click.prevent="setPage(currentPage+1)"
+                >
+                  <a class="page-link" href="#">></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+         <!--表格部分-->
+         <table class="table table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">國家/區域</th>
+                <th scope="col">類型</th>
+                <th scope="col">天數</th>
+                <th scope="col">備註</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(country,index) in filterRows.slice(pageStart, pageStart + offset)"
+                :key="index.id"
+              >
+                <td>{{country.name}}</td>
+                <td>{{country.Category.name}}</td>
+                <td>{{country.days}}</td>
+                <td>{{country.remark}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </template>
+    
+</body>
+</html>

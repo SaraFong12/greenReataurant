@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>search</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+<script src="./台中綠色餐廳.js"></script>
+<thead>搜尋餐廳：<input type="search" class="light-table-filter" data-table="order-table" placeholder="請輸入關鍵字">
+</thead>
+<script>
+    let jsonObj = JSON.parse(json)
+    let table_header = `
+        <table border="1" class="order-table"> 
+        <thead>
+        <tr style="font-size:20px ;height:50px">
+           <th>照片</th>
+           <th>店名</th>
+           <th>電話</th>
+           <th>地址</th>    
+           <th>網站</th>    
+        </tr>
+        </thead>`
+    let content = ''
+        jsonObj.forEach(function (obj) {
+            content += `
+            <tbody>
+            <tr style="font-size:16px ;height:33px">
+            <td><img  src="${obj.照片}" style='width:200px;'></td>
+            <td>${obj.店名}</td>
+            <td>${obj.電話}</td>
+            <td>${obj.地址}</td>
+            <td><a href="${obj.網站}">查看網站</a></td>
+            </tr>
+            </tbody>
+            `
+        })
+        let table_footer = '</table>'
+        let table = table_header + content + table_footer
+        $("tbody").append(table)
+
+   
+(function(document) {
+  'use strict';
+
+  // 建立 LightTableFilter
+  var LightTableFilter = (function(Arr) {
+
+    var _input;
+
+    // 資料輸入事件處理函數
+    function _onInputEvent(e) {
+      _input = e.target;
+      var tables = document.getElementsByClassName(_input.getAttribute('data-table'));
+      Arr.forEach.call(tables, function(table) {
+        Arr.forEach.call(table.tBodies, function(tbody) {
+          Arr.forEach.call(tbody.rows, _filter);
+        });
+      });
+    }
+
+    // 資料篩選函數，顯示包含關鍵字的列，其餘隱藏
+    function _filter(row) {
+      var text = row.textContent.toLowerCase(), val = _input.value.toLowerCase();
+      row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
+    }
+
+    return {
+      // 初始化函數
+      init: function() {
+        var inputs = document.getElementsByClassName('light-table-filter');
+        Arr.forEach.call(inputs, function(input) {
+          input.oninput = _onInputEvent;
+        });
+      }
+    };
+  })(Array.prototype);
+
+  // 網頁載入完成後，啟動 LightTableFilter
+  document.addEventListener('readystatechange', function() {
+    if (document.readyState === 'complete') {
+      LightTableFilter.init();
+    }
+  });
+
+})(document);
+</script>
+<tbody>
+    
+    
+</tbody>
+<body>
+    
+</body>
+</html>

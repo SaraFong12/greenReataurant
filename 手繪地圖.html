@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手繪地圖</title>
+    <link rel="stylesheet" href="./style.css"> <!--將標點的css引用-->
+</head>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="./日常飲食.js"></script>
+<link rel="stylesheet" href="./loading.css">
+
+
+<script>
+    $(function () { //設定dialog 以及圖釘點下打開menu
+        $("div")
+            .not("#d1")
+            .not("#d2")
+            .not("#tag")
+            .not("#dlpick")
+            .dialog({   //有加一點動畫
+                width:900,
+                autoOpen: false,
+                modal: true,
+                maxHeight: 800,
+                maxWidth: 1100,
+                buttons: {
+                    Ok: function () {
+                        $(this).dialog("close")
+                    }
+                },
+                hide: { effect: 'fold', speed: 2000 },
+
+                show: { effect: 'blind', speed: 2000 }
+
+            })
+        $("#dlpick")
+            .dialog({
+                width: 1290,
+                autoOpen: false,
+                modal: false,
+                maxHeight: 1400,
+                maxWidth: 1300,
+                buttons: {
+                    Ok: function () {
+                        $(this).dialog("close")
+                    }
+                },
+                hide: { effect: 'fold', speed: 2000 },
+
+                show: { effect: 'blind', speed: 2000 }
+            })
+
+        $("#iconpick").click(function () {
+            $("#dlpick").dialog("open")
+        })
+        function click() {
+            for (let i = 1; i < 21; i++) {
+                $("#a" + i).click(function () {
+                    $("#dl" + i).dialog("open")
+                })
+            }
+        }
+        click()
+    })
+
+    let jsonObj = JSON.parse(json) //引用json
+    let table_header = `
+    <table border="1"> 
+       <tr style="font-size:20px ;height:50px">   
+           <th>店名</th>
+           <th>電話</th>
+           <th>平均價格</th>
+           <th>營業時間</th>
+           <th>評價</th>
+           <th>外送</th>
+           <th>地址</th>    
+       </tr>
+    `
+    let content = ''
+    jsonObj.forEach(function (obj) {
+        content += `
+        <tr style="font-size:16px ;height:33px">
+            <td>${obj.店名}</td>
+            <td>${obj.電話}</td>
+            <td>${obj.平均價格}</td>
+            <td>${obj.營業時間}</td>
+            <td>${obj.評價}</td>
+            <td>${obj.外送}</td>
+            <td>${obj.地址}</td>
+        </tr>
+    `
+        /*  用for去跑
+        <div id="dl4" title="零五粥舖（黎明店）"><img src="./日常飲食/菜單/a04菜 零五 .jpg" width="700px"></div>
+        <img src="./icon/綠.png" id="a4" />
+        */
+
+    })
+    let table_footer = '</table>'
+    let table = table_header + content + table_footer
+
+    $(function () {
+        $(".red").hide()
+        //加表格以及表格click 的時候，打開dialog視窗
+        $("body").append(table)
+        for (let i = 1; i < 20; i++) {
+            $("tr").slice(i, i + 1).click(function () {
+                $("#dl" + i).dialog("open")
+            })
+        }
+        $("tr").slice(20).click(function () {
+            $("#dl20").dialog("open")
+        })
+
+        //設定滑鼠hover表格，要對應到圖釘的位置
+        for (let i = 1; i < 20; i++) {
+            $("tr").slice(i, i + 1).hover(
+                function () {
+                    $("#a" + i).hide()
+                    $("#b" + i).show()
+                }, function () {
+                    $("#b" + i).hide()
+                    $("#a" + i).show()
+                }
+            )
+        }
+        $("tr").slice(20).hover(
+            function () {
+                $("#a20").hide()
+                $("#b20").show()
+            }, function () {
+                $("#b20").hide()
+                $("#a20").show()
+            }
+        )
+
+        //滑鼠經過圖釘對照表格的設定
+        for (let i = 1; i < 20; i++) {
+            $("#a" + i).hover(
+                function () {
+                    $("tr").slice(i, i + 1).css({ "background-color": "rgb(251, 179, 56)" })
+                }, function () {
+                    $("tr").slice(i, i + 1).css({ "background-color": "white" })
+                }
+            )
+        }
+
+        $("#a20").hover(
+            function () {
+                $("tr").slice(20).css({ "background-color": "rgb(251, 179, 56)" })
+            }, function () {
+                $("tr").slice(20).css({ "background-color": "white" })
+            }
+        )
+    })
+</script>
+<style>
+    #d1 {
+        position: absolute;
+        top: 90px;
+        left: 20px;
+        height: 180px;
+        width: 350px;
+    }
+
+    table {
+        font-family: 微軟正黑體;
+        position: absolute;
+        top: 30px;
+        left: 740px;
+        width: 1000px;
+        border: dashed rgb(28, 98, 191);
+        border-radius: 15px 15px 15px 15px;
+    }
+
+    th {
+        background-color: #51b6d2;
+        color: #fff;
+    }
+
+    tr:hover {
+        background-color: rgb(251, 179, 56);
+    }
+
+    #d2 {
+        position: absolute;
+        top: 0px;
+        left: 40px;
+
+    }
+
+    .red {
+        height: 40px;
+        width: 40px;
+    }
+
+    #iconpick {
+        cursor: pointer
+    }
+    .el-dialog{
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        position: absolute;
+        top: 50%;left:50%;
+        transform: translate(-50%,-50%);
+    }
+    .el-dialog .el-dialog__body{
+        flex:1;
+        overflow: auto;
+
+    }
+    
+</style>
+
+<body>
+    <div id="d1"><img src="./手繪2.png" width="700" id="pic1">
+        <h1>&nbsp;&nbsp;&nbsp;🤷‍♀️💭選擇障礙
+            <div id="dlpick">
+                <iframe src="./抽食物.html" scrolling=auto width="100%" height="420px" frameborder="0"></iframe>
+            </div>
+            <img id="iconpick" class="ld ld-bounce" style="animation-duration:2.0s" width="60px" src="./icon/籤.png">
+
+        </h1>
+
+    </div>
+    <!--地圖上圖釘位置及菜單-->
+    <div id="tag">
+
+        <div id="dl4" title="零五粥舖（黎明店）"><img src="./日常飲食/菜單/a04菜 零五 .jpg" width="700px"></div>
+        <img src="./icon/綠.png" id="a4">
+        <img src="./icon/紅.png" id="b4" class="red">
+
+        <div id="dl2" title="王家火雞肉飯"><img src="./日常飲食/菜單/a02菜 王家火雞.jpg" width="600px"></div>
+        <img src="./icon/綠.png" id="a2">
+        <img src="./icon/紅.png" id="b2" class="red">
+
+
+        <div id="dl3" title="炒飯超人公益店"><img src="./日常飲食/菜單/a03菜 炒飯.jpg" width="550px"></div>
+        <img src="./icon/綠.png" id="a3">
+        <img src="./icon/紅.png" id="b3" class="red">
+
+        <div id="dl1" title="十両。滷味．麻辣燙．浮水魷魚焿"><img src="./日常飲食/菜單/a01菜 十兩.jpg" width="700px"></div>
+        <img src="./icon/綠.png" id="a1">
+        <img src="./icon/紅.png" id="b1" class="red">
+
+        <div id="dl5" title="米點米食"><img src="./日常飲食/菜單/a05菜 米點便當.jpg" width="500px"></div>
+        <img src="./icon/綠.png" id="a5">
+        <img src="./icon/紅.png" id="b5" class="red">
+
+        <div id="dl6" title="南屯豬腳麵線"><img src="./日常飲食/菜單/a06菜 豬腳.jpg" width="500px"></div>
+        <img src="./icon/綠.png" id="a6">
+        <img src="./icon/紅.png" id="b6" class="red">
+
+        <div id="dl7" title="條條有理"><img src="./日常飲食/菜單/a07菜 條條 .jpg" width="500px"></div>
+        <img src="./icon/綠.png" id="a7">
+        <img src="./icon/紅.png" id="b7" class="red">
+
+        <div id="dl8" title="初一 素蔬食自助餐館"><img src="./日常飲食/菜單/a08菜 初一.jpg" width="700px"></div>
+        <img src="./icon/綠.png" id="a8">
+        <img src="./icon/紅.png" id="b8" class="red">
+
+        <div id="dl9" title="姐妹花越南創意料理"><img src="./日常飲食/菜單/a09菜 姊妹花.jpg" width="500px"></div>
+        <img src="./icon/橘.png" id="a9">
+        <img src="./icon/紅.png" id="b9" class="red">
+
+        <div id="dl10" title="麥當勞-台中五權西二餐廳"><img src="./日常飲食/菜單/a10菜 麥當勞.png" width="700px"></div>
+        <img src="./icon/橘.png" id="a10">
+        <img src="./icon/紅.png" id="b10" class="red">
+
+        <div id="dl11" title="麵由辛生"><img src="./日常飲食/菜單/a11菜 麵由.jpg" width="500px"></div>
+        <img src="./icon/橘.png" id="a11">
+        <img src="./icon/紅.png" id="b11" class="red">
+
+        <div id="dl12" title="肯德基 台中五權西二餐廳"><img src="./日常飲食/菜單/a12菜 肯德基.png" width="700px"></div>
+        <img src="./icon/橘.png" id="a12">
+        <img src="./icon/紅.png" id="b12" class="red">
+
+
+        <div id="dl13" title="新馬小廚南屯店"><img src="./日常飲食/菜單/a13菜 新馬.jpg" width="800px"></div>
+        <img src="./icon/橘.png" id="a13">
+        <img src="./icon/紅.png" id="b13" class="red">
+
+
+        <div id="dl14" title="Woopen木盆"><img src="./日常飲食/菜單/a14菜 木盆.jpg" width="700px"></div>
+        <img src="./icon/橘.png" id="a14">
+        <img src="./icon/紅.png" id="b14" class="red">
+
+
+        <div id="dl15" title="Poke poke 波奇波奇向心南店"><img src="./日常飲食/菜單/a15菜 波奇.jpg" width="900px"></div>
+        <img src="./icon/橘.png" id="a15">
+        <img src="./icon/紅.png" id="b15" class="red">
+
+
+        <div id="dl16" title="金三益健康茶飲-台中南屯黎明店"><img src="./日常飲食/菜單/a16菜 金三益.jpg" width="900px"></div>
+        <img src="./icon/橘.png" id="a16">
+        <img src="./icon/紅.png" id="b16" class="red">
+
+        <div id="dl17" title="八米澤鐵板燒"><img src="./日常飲食/菜單/a17菜 八米.jpg" width="700px"></div>
+        <img src="./icon/橘.png" id="a17">
+        <img src="./icon/紅.png" id="b17" class="red">
+
+        <div id="dl18" title="235巷pasta台中公益店"><img src="./日常飲食/菜單/a18菜 235.jpg" width="700px"></div>
+        <img src="./icon/橘.png" id="a18">
+        <img src="./icon/紅.png" id="b18" class="red">
+
+        <div id="dl19" title="台客燒肉粥"><img src="./日常飲食/菜單/a19菜 台客.jpg" width="700px"></div>
+        <img src="./icon/橘.png" id="a19">
+        <img src="./icon/紅.png" id="b19" class="red">
+
+        <div id="dl20" title="白貓散步 Gatto Bianco"><img src="./日常飲食/菜單/a20菜 白貓.jpg" width="700px"></div>
+        <img src="./icon/橘.png" id="a20">
+        <img src="./icon/紅.png" id="b20" class="red">
+
+    </div>
+
+    <div id="d2">
+        <h1>🍱 日常飲食 &nbsp; <!--title 以及icons和連結-->
+            <a href="https://goo.gl/maps/tBmksaduJx9VRpkV8" target="_blank">
+                <img class="ld ld-bounce" style="animation-duration:2.0s" src="./Google_Maps_icon_(2020).svg.png"
+                    width="35px">
+            </a>&nbsp;
+            <a href="https://www.ubereats.com/tw" target="_blank">
+                <img class="ld ld-bounce" style="animation-duration:2.0s" src="./Uber_Eats_app_icon.jpg" width="50px">
+            </a>&nbsp;
+            <a href="https://www.foodpanda.com.tw" target="_blank">
+                <img class="ld ld-bounce" style="animation-duration:2.0s" src="./foodpanda.png" width="55px">
+            </a>
+        </h1>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>綠色餐廳介紹</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="./台中綠色餐廳.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+<script>
+    $(function () {
+        //將區域加入選單
+        let areaArray = ['中市','中區', '東區', '南區', '西區', '北區', '北屯區', '西屯區', '南屯區', '太平區', '大里區',
+            '霧峰區', '烏日區', '豐原市', '后里區', '潭子區', '大雅區', '大肚區', '沙鹿區', '梧棲區', '清水區', '大甲區']
+        for (i = 0; i < areaArray.length; i++) {
+            let option = `<option>${areaArray[i]}</option>`
+            $("#location2").append(option)
+        }
+
+
+
+        let jsonObj = JSON.parse(json) //引用json
+        let table_header = `
+        <table border="1"> 
+        <tr style="font-size:20px ;height:50px">
+           <th>照片</th>
+           <th>店名</th>
+           <th>電話</th>
+           <th>地址</th>    
+           <th>網站</th>    
+        </tr>
+        `
+        let content = ''
+        jsonObj.forEach(function (obj) {
+            content += `
+            <tr style="font-size:16px ;height:33px">
+            <td><img  src="${obj.照片}" style='width:200px;'></td>
+            <td>${obj.店名}</td>
+            <td>${obj.電話}</td>
+            <td>${obj.地址}</td>
+            <td><a href="${obj.網站}">查看網站</a></td>
+            </tr>
+            `
+        })
+        let table_footer = '</table>'
+        let table = table_header + content + table_footer
+        $("body").append(table)
+
+        //關鍵字提醒
+        let nameList = jsonObj.map(x => x.店名)
+        nameList
+        $("#myInput").autocomplete({
+            source:nameList
+        })
+        //設定搜尋按鈕事件
+        $("#searchbt").on("click", function () {
+            let value = $("#myInput").val().toLowerCase().trim()//設定抓的關鍵字
+            //抓table有沒有符合
+            $("#tablebody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                //如何設定區域?
+                // let area =$("location2").val().trim() //設定區域
+                //      $(this).toggle($(this).text().toLowerCase().indexOf(area)>-1)
+            })
+        })
+
+       
+
+    })
+</script>
+<style>
+    #logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    body {
+        margin: auto;
+    }
+
+    .dropbtn {
+        background-color: rgb(28, 225, 176);
+        color: #fff;
+        height: 70px;
+        padding: 10px;
+        font-size: 25px;
+        border: none;
+        cursor: pointer;
+        font-weight: bolder;
+        display: inline-block;
+    }
+
+    .dropdown {
+        left: 5%;
+        /* 宣告為相對定位，下面的子元素可以參考該元素 */
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        /* 隱藏元素 */
+        display: none;
+        position: absolute;
+        background-color: white;
+        width: 100%;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    .dropdown-content a {
+        color: rgb(10, 129, 99);
+        padding: 5px 6px;
+        font-size: medium;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1
+    }
+
+    /* .dropdown的hover效果，作用在.dropdown-content上 */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: rgb(138, 234, 210);
+    }
+
+    .button {
+        height: 40px;
+        width: 40px;
+        border-radius: 30%;
+        background-color: rgb(195, 244, 232);
+        color: rgb(10, 129, 99);
+        cursor: pointer;
+        border: none;
+    }
+
+    nav {
+        background-color: rgb(28, 225, 176);
+        height: 70px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+
+    #d1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+
+    input {
+        width: 300px;
+        height: 30px;
+        border: none;
+        border-radius: 10px;
+    }
+
+    #location2 {
+        width: 100px;
+        height: 30px;
+        border: none;
+        border-radius: 10px;
+    }
+
+    #home {
+        width: 50px;
+        border-radius: 10px;
+    }
+
+    .section-h-middle {
+        width: 70%;
+        height: 200px;
+        margin: 10px auto;
+
+    }
+
+    /* 表格設定 */
+    table {
+        font-family: 微軟正黑體;
+        width: 70%;
+        margin: 0 auto;
+        width: 1200px;
+        border: dashed rgb(117, 186, 169);
+        border-radius: 15px 15px 15px 15px;
+    }
+
+    th {
+        background-color: rgb(117, 186, 169);
+        color: #fff;
+    }
+
+    tr:hover {
+        background-color: rgb(188, 228, 227);
+    }
+</style>
+
+<body>
+    <br>
+    <nav>
+        <div id="d1" style="">
+            <div id="logo" style="font-size: 30px; font-family:Microsoft JhengHei; font-weight:bold; color:white;">
+                <img src="./icon/綠色餐廳LOGO.jpg" style="height:50px;">&nbsp;
+                <div class="dropdown"><!-- 下拉選單 -->
+                    <a href="./台中綠色餐廳.html"><button class="dropbtn">台中綠色餐廳</button></a>
+                    <div class="dropdown-content">
+                        <a href="./綠色餐廳介紹.html" target="_block">綠色餐廳介紹</a>
+                        <a href="./餐廳總覽.html" target="_block">餐廳總覽</a>
+                    </div>
+                </div>
+            </div>&emsp;&emsp;
+            <input id="search1" placeholder=" 請輸入餐廳">&nbsp;&nbsp;
+            <select name="location1" id="location2">
+            </select>&emsp;
+            <button id="search2" class="button" style="font-size: 20px;">🔍</button>&emsp;
+            <button class="button" id="mapicon"><img src="./icon/mapicon.png" width="30px"></button>&emsp;
+            <!-- <button id="addfood" style="font-size: 15px;font-family:Microsoft JhengHei">新增餐廳</button>&emsp; -->
+            <!-- <a href="./手繪地圖.html">
+                <button class="button" id="home" style="font-size: 25px;font-family:Microsoft JhengHei">🏠</button>
+            </a> -->
+            <a href="https://www.facebook.com/greenlife123/?ref=nf">
+                <button class="button" id="mapicon"><img src="./icon/fb.png" width="30px">
+                </button>
+            </a>
+        </div>
+
+    </nav> <br><br>
+    <div id="results"></div>
+</body>
+
+</html>

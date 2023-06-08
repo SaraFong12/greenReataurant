@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">  <!--將標點的css引用-->
+</head>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="./日常飲食.js"></script>
+<link rel="stylesheet" href="./loading.css">
+
+
+<script>
+    $(function () {
+        $("div")
+        .not("#d1")
+        .not("#d2")
+        .dialog({   //有加一點動畫
+            width:800,
+            autoOpen: false,
+            modal: true,
+            maxHeight: 800,
+            maxWidth: 1100,
+            buttons:{
+                Ok: function(){
+                    $(this).dialog("close")
+                }
+            },
+            hide: {effect: 'fold', speed: 2000},
+        
+            show: {effect: 'blind', speed: 2000}
+
+        })
+        function click() {
+            $("#a01").click(function () {
+                $("#dl01").dialog("open")
+            })
+            $("#a02").click(function () {
+                $("#dl02").dialog("open")
+            })
+            $("#a03").click(function () {
+                $("#dl03").dialog("open")
+            })
+            $("#a04").click(function () {
+                $("#dl04").dialog("open")
+            })
+            $("#a05").click(function () {
+                $("#dl05").dialog("open")
+            })
+            $("#a06").click(function () {
+                $("#dl06").dialog("open")
+            })
+            $("#a07").click(function () {
+                $("#dl07").dialog("open")
+            })
+            $("#a08").click(function () {
+                $("#dl08").dialog("open")
+            })
+            $("#a09").click(function () {
+                $("#dl09").dialog("open")
+            })
+            $("#a10").click(function () {
+                $("#dl10").dialog("open")
+            })
+            $("#a11").click(function () {
+                $("#dl11").dialog("open")
+            })
+            $("#a12").click(function () {
+                $("#dl12").dialog("open")
+            })
+            $("#a13").click(function () {
+                $("#dl13").dialog("open")
+            })
+            $("#a14").click(function () {
+                $("#dl14").dialog("open")
+            })
+            $("#a15").click(function () {
+                $("#dl15").dialog("open")
+            })
+            $("#a16").click(function () {
+                $("#dl16").dialog("open")
+            })
+            $("#a17").click(function () {
+                $("#dl17").dialog("open")
+            })
+            $("#a18").click(function () {
+                $("#dl18").dialog("open")
+            })
+            $("#a19").click(function () {
+                $("#dl19").dialog("open")
+            })
+            $("#a20").click(function () {
+                $("#dl20").dialog("open")
+            })
+        }
+        click()
+        //表格對照地圖的點 寫不出來
+        
+    })
+
+    let jsonObj = JSON.parse(json)
+    let table_header = `
+    <table border="1"> 
+       <tr>   
+           <th>編號</th> 
+           <th>店名</th>
+           <th>電話</th>
+           <th>平均價格</th>
+           <th>營業時間</th>
+           <th>評價</th>
+           <th>外送</th>
+           <th>地址</th>    
+       </tr>
+    `
+    let content = ''
+    jsonObj.forEach(function(obj){
+    content += `
+        <tr>
+            <td>${obj.編號}</td>
+            <td>${obj.店名}</td>
+            <td>${obj.電話}</td>
+            <td>${obj.平均價格}</td>
+            <td>${obj.營業時間}</td>
+            <td>${obj.評價}</td>
+            <td>${obj.外送}</td>
+            <td>${obj.地址}</td>
+        </tr>
+    `
+    
+    })
+    let table_footer = '</table>'
+    let table = table_header  + content + table_footer
+
+    $(function(){
+
+        $("body").append(table)
+        
+    })
+</script>
+<style>
+    #d1 {
+        position: absolute;
+        top: 90px;
+        left: 20px;
+        height: 180px;
+        width: 180px;
+    }
+    table {
+        font-family: 微軟正黑體;
+        position:absolute;
+        top: 30px;     
+        left:740px;
+        width:950px;
+        border: dashed rgb(28, 98, 191);
+        border-radius:15px 15px 15px 15px;
+        
+        
+    }
+    th { 
+        background-color: #51b6d2;
+        color:#fff;
+    } 
+   
+    tr:hover {
+        background-color: rgb(251, 179, 56);
+    }
+    #d2 {
+        position:absolute;
+        top: 0px;     
+        left:40px;
+        
+    }
+
+    
+</style>
+
+<body>
+    <div id="d1"><img src="./手繪2.png" width="700" id="pic1" ></div>
+
+    <div id="dl04" title="零五粥舖（黎明店）"><img src="./日常飲食/菜單/a04菜 零五 .jpg" width="700px"></div>
+    <img src="./icon/綠.png" id="a04">
+    
+    <div id="dl02" title="王家火雞肉飯"><img src="./日常飲食/菜單/a02菜 王家火雞.jpg" width="600px"></div>
+    <img src="./icon/綠.png" id="a02">
+    
+    <div id="dl03" title="炒飯超人公益店"><img src="./日常飲食/菜單/a03菜 炒飯.jpg" width="550px"></div>
+    <img src="./icon/綠.png" id="a03">
+    
+    <div id="dl01" title="十両。滷味．麻辣燙．浮水魷魚焿"><img src="./日常飲食/菜單/a01菜 十兩.jpg" width="700px"></div>
+    <img src="./icon/綠.png" id="a01">
+
+    <div id="dl05" title="米點米食"><img src="./日常飲食/菜單/a05菜 米點便當.jpg" width="500px"></div>
+    <img src="./icon/綠.png" id="a05">
+
+    <div id="dl06" title="南屯豬腳麵線"><img src="./日常飲食/菜單/a06菜 豬腳.jpg" width="500px"></div>
+    <img src="./icon/綠.png" id="a06">
+    <div id="dl07" title="條條有理"><img src="./日常飲食/菜單/a07菜 條條 .jpg" width="500px"></div>
+    <img src="./icon/綠.png" id="a07">
+    <div id="dl08" title="初一 素蔬食自助餐館"><img src="./日常飲食/菜單/a08菜 初一.jpg" width="700px"></div>
+    <img src="./icon/綠.png" id="a08">
+    <div id="dl09" title="姐妹花越南創意料理"><img src="./日常飲食/菜單/a09菜 姊妹花.jpg" width="500px"></div>
+    <img src="./icon/橘.png" id="a09">
+    <div id="dl10" title="麥當勞-台中五權西二餐廳"><img src="./日常飲食/菜單/a10菜 麥當勞.png" width="700px"></div>
+    <img src="./icon/橘.png" id="a10">
+    <div id="dl11" title="麵由辛生"><img src="./日常飲食/菜單/a11菜 麵由.jpg" width="500px"></div>
+    <img src="./icon/橘.png" id="a11">
+    <div id="dl12" title="肯德基 台中五權西二餐廳"><img src="./日常飲食/菜單/a12菜 肯德基.png" width="700px"></div>
+    <img src="./icon/橘.png" id="a12">
+    <div id="dl13" title="新馬小廚南屯店"><img src="./日常飲食/菜單/a13菜 新馬.jpg" width="800px"></div>
+    <img src="./icon/橘.png" id="a13">
+    <div id="dl14" title="Woopen木盆"><img src="./日常飲食/菜單/a14菜 木盆.jpg" width="700px"></div>
+    <img src="./icon/橘.png" id="a14">
+    <div id="dl15" title="Poke poke 波奇波奇向心南店"><img src="./日常飲食/菜單/a15菜 波奇.jpg" width="900px"></div>
+    <img src="./icon/橘.png" id="a15">
+    <div id="dl16" title="金三益健康茶飲-台中南屯黎明店"><img src="./日常飲食/菜單/a16菜 金三益.jpg" width="700px"></div>
+    <img src="./icon/橘.png" id="a16">
+    <div id="dl17" title="八米澤鐵板燒"><img src="./日常飲食/菜單/a17菜 八米.jpg" width="700px"></div>
+    <img src="./icon/橘.png" id="a17">
+    <div id="dl18" title="235巷pasta台中公益店"><img src="./日常飲食/菜單/a18菜 235.jpg" width="700px"></div>
+    <img src="./icon/橘.png" id="a18">
+    <div id="dl19" title="台客燒肉粥"><img src="./日常飲食/菜單/a19菜 台客.jpg" width="700px"></div>
+    <img src="./icon/橘.png" id="a19">
+    <div id="dl20" title="白貓散步 Gatto Bianco"><img src="./日常飲食/菜單/a20菜 白貓.jpg" width="700px"></div>
+    <img src="./icon/橘.png" id="a20">
+
+    <div id="d2"><h1>🍱 日常飲食 &nbsp;
+        <a href="https://goo.gl/maps/tBmksaduJx9VRpkV8" target="_blank">
+            <img  class="ld ld-bounce" style="animation-duration:2.0s" 
+            src="./Google_Maps_icon_(2020).svg.png" width="35px">
+        </a>&nbsp;
+        <a href="https://www.ubereats.com/tw" target="_blank">
+            <img  class="ld ld-bounce" style="animation-duration:2.0s"
+            src="./Uber_Eats_app_icon.jpg" width="50px">
+        </a>&nbsp;
+        <a href="https://www.foodpanda.com.tw" target="_blank">
+            <img  class="ld ld-bounce" style="animation-duration:2.0s"
+            src="./foodpanda.png" width="55px">
+        </a>
+    </h1>
+    </div>
+    
+</body>
+
+</html>
